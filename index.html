@@ -3,68 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web AR Dino Test</title>
+    <title>Dino AR Test</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        body { margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; background-color: #f0f0f0; font-family: sans-serif; }
-        header { width: 100%; padding: 20px; text-align: center; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10; }
-        model-viewer { width: 100%; height: 80vh; background-color: #eee; --poster-color: transparent; }
-        
-        /* AR 버튼 스타일 커스텀 */
+        body { margin: 0; background-color: transparent; font-family: sans-serif; }
+        /* 화면 꽉 차게 설정 */
+        model-viewer {
+            width: 100vw;
+            height: 100vh;
+            --poster-color: transparent;
+            background-color: transparent;
+        }
+        /* AR 진입 버튼을 화면 중앙에 크게 배치 (사용자 유도) */
         #ar-button {
-            background-image: url(https://modelviewer.dev/assets/ic_view_in_ar_new_googblue_48dp.png);
-            background-repeat: no-repeat;
-            background-size: 20px 20px;
-            background-position: 12px 50%;
-            background-color: #fff;
-            color: #4285f4;
             position: absolute;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            white-space: nowrap;
-            bottom: 132px;
-            padding: 0px 16px 0px 40px;
-            font-family: Roboto Regular, Helvetica Neue, sans-serif;
-            font-size: 14px;
-            height: 36px;
-            line-height: 36px;
-            border-radius: 18px;
-            border: 1px solid #DADCE0;
+            padding: 15px 30px;
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 999;
         }
-        #ar-button:active { background-color: #E8EAED; }
-        #ar-button:focus { outline: none; }
-        #ar-button:focus-visible { outline: 1px solid #4285f4; }
     </style>
 </head>
 <body>
-
-    <header>
-        <h1>Dino AR Test</h1>
-        <p>아래 공룡을 눌러보거나 'AR로 보기' 버튼을 클릭하세요.</p>
-    </header>
 
     <model-viewer 
         src="dino.glb" 
         ar 
         ar-modes="webxr scene-viewer quick-look" 
+        ar-placement="floor"
         camera-controls 
-        poster="poster.webp" 
-        shadow-intensity="1" 
-        auto-rotate 
-        interaction-prompt="auto">
+        touch-action="none"
+        shadow-intensity="0" 
+        auto-rotate
+        autoplay>
         
         <button slot="ar-button" id="ar-button">
-            실제 공간에 배치하기 (AR)
+            🦖 공룡을 실제 공간에 소환하기
         </button>
 
-        <div id="ar-prompt">
-            <img src="https://modelviewer.dev/assets/hand.png" alt="Hand gesture">
-        </div>
     </model-viewer>
-
-    <footer>
-        <p>© 2024 WebXR Test Page</p>
-    </footer>
 
 </body>
 </html>
