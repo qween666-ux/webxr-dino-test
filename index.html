@@ -13,62 +13,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 </head>
 
-<body style="margin:0; overflow:hidden; background:#000;">
+<body style="margin:0; overflow:hidden;">
   <a-scene
     embedded
-    vr-mode-ui="enabled: false"
-    arjs="sourceType: webcam; debugUIEnabled: false;"
-    renderer="logarithmicDepthBuffer: true; precision: mediump;"
+    vr-mode-ui="enabled:false"
+    arjs="
+      sourceType: webcam;
+      debugUIEnabled: false;
+      videoTexture: true;
+    "
+    renderer="
+      antialias: true;
+      precision: highp;
+    "
   >
 
-    <!-- ===== 3D 자산 ===== -->
     <a-assets>
-      <!-- dino.glb 는 index.html 과 같은 폴더에 있어야 함 -->
       <a-asset-item id="dino" src="dino.glb"></a-asset-item>
     </a-assets>
 
-    <!-- ===== 공룡 ===== -->
+    <!-- 공룡 : 무조건 시야 안 -->
     <a-entity
       id="dinoModel"
       gltf-model="#dino"
-      visible="false"
+      scale="0.03 0.03 0.03"
+      position="0 -0.3 -1"
       rotation="0 180 0"
       animation-mixer>
     </a-entity>
 
-    <!-- ===== 카메라 ===== -->
     <a-camera
       position="0 1.6 0"
-      fov="60"
-      look-controls="enabled: true">
+      fov="55">
     </a-camera>
 
   </a-scene>
-
-  <!-- ===== 모바일 / PC 자동 보정 (핵심) ===== -->
-  <script>
-    window.addEventListener('load', () => {
-      const dino = document.querySelector('#dinoModel');
-
-      const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-
-      if (isMobile) {
-        // 📱 모바일 QR 접속 기준 (안 보임 문제 해결용 안전값)
-        dino.setAttribute('scale', '0.04 0.04 0.04');
-        dino.setAttribute('position', '0 -0.8 -2');
-      } else {
-        // 💻 PC 크롬 미리보기용
-        dino.setAttribute('scale', '0.02 0.02 0.02');
-        dino.setAttribute('position', '0 -1 -3');
-      }
-
-      // 모델 로드 후 표시
-      dino.addEventListener('model-loaded', () => {
-        dino.setAttribute('visible', true);
-        console.log('Dino loaded');
-      });
-    });
-  </script>
-
 </body>
 </html>
