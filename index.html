@@ -1,35 +1,50 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Dino AR Test</title>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Dino WebAR Test</title>
 
-    <!-- AR.js + A-Frame -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.4.5/aframe/build/aframe-ar.js"></script>
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
-    <style>
-      body { margin: 0; overflow: hidden; }
-    </style>
-  </head>
+  <!-- AR.js (안정 버전) -->
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.js"></script>
 
-  <body>
-    <a-scene
-  arjs="sourceType: webcam; debugUIEnabled: true;"
-  vr-mode-ui="enabled: false">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
-    >
-      <!-- 기본 Hiro 마커 -->
-      <a-marker preset="hiro">
-        <a-entity
-          gltf-model="dino.glb"
-          scale="0.5 0.5 0.5"
-          position="0 0 0"
-          rotation="0 180 0"
-        ></a-entity>
-      </a-marker>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+  </style>
+</head>
 
-      <a-entity camera></a-entity>
-    </a-scene>
-  </body>
+<body>
+  <!-- AR Scene -->
+  <a-scene
+    arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: true;"
+    vr-mode-ui="enabled: false"
+    renderer="logarithmicDepthBuffer: true;"
+  >
+    <!-- Hiro Marker -->
+    <a-marker preset="hiro">
+      <!-- Dino 3D Model -->
+      <a-entity
+        gltf-model="dino.glb"
+        scale="0.5 0.5 0.5"
+        position="0 0 0"
+        rotation="0 180 0"
+      ></a-entity>
+
+      <!-- 🔴 디버그용 박스 (모델 안 뜰 때 확인용)
+      <a-box color="red" position="0 0.5 0"></a-box>
+      -->
+    </a-marker>
+
+    <!-- Camera -->
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
 </html>
