@@ -1,43 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <title>Dino AR Stable</title>
+  <meta charset="utf-8" />
+  <title>Dino WebAR</title>
 
-  <!-- A-Frame (안정 구버전) -->
+  <!-- A-Frame (안정 버전) -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 
-  <!-- AR.js (검증 버전) -->
+  <!-- AR.js (안정 CDN) -->
   <script src="https://raw.githack.com/AR-js-org/AR.js/3.3.2/aframe/build/aframe-ar.js"></script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no"
+  />
 
   <style>
-    body { margin: 0; overflow: hidden; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
   </style>
 </head>
 
 <body>
+  <!-- AR Scene -->
   <a-scene
-    arjs="sourceType: webcam; debugUIEnabled: true;"
+    arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: false;"
     vr-mode-ui="enabled: false"
+    renderer="logarithmicDepthBuffer: true;"
   >
+    <!-- Hiro Marker -->
     <a-marker preset="hiro">
-      <!-- 🔴 무조건 떠야 하는 테스트 박스 -->
-      <a-box
-        color="red"
-        position="0 0.5 0"
-        scale="1 1 1"
-      ></a-box>
-
-      <!-- Dino 모델 (박스 뜨면 주석 해제)
+      <!-- Dino 3D Model -->
       <a-entity
         gltf-model="dino.glb"
-        scale="0.5 0.5 0.5"
+        animation-mixer
+        scale="0.05 0.05 0.05"
+        position="0 0.1 0"
+        rotation="0 180 0"
       ></a-entity>
-      -->
     </a-marker>
 
+    <!-- Camera -->
     <a-entity camera></a-entity>
   </a-scene>
 </body>
