@@ -1,50 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <title>Dino WebAR Test</title>
-
-  <!-- A-Frame -->
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-
-  <!-- AR.js (안정 버전) -->
-  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.js"></script>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: black;
-    }
-  </style>
+  <meta charset="utf-8">
+  <title>TEST</title>
 </head>
-
-<body>
-  <!-- AR Scene -->
-  <a-scene
-    arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: true;"
-    vr-mode-ui="enabled: false"
-    renderer="logarithmicDepthBuffer: true;"
-  >
-    <!-- Hiro Marker -->
-    <a-marker preset="hiro">
-      <!-- Dino 3D Model -->
-      <a-entity
-        gltf-model="dino.glb"
-        scale="0.5 0.5 0.5"
-        position="0 0 0"
-        rotation="0 180 0"
-      ></a-entity>
-
-      <!-- 🔴 디버그용 박스 (모델 안 뜰 때 확인용)
-      <a-box color="red" position="0 0.5 0"></a-box>
-      -->
-    </a-marker>
-
-    <!-- Camera -->
-    <a-entity camera></a-entity>
-  </a-scene>
+<body style="background:black; color:white;">
+  <h1>HTML 정상 로딩</h1>
+  <p>이 글이 보이면 GitHub Pages OK</p>
 </body>
 </html>
