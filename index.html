@@ -4,19 +4,28 @@
   <meta charset="utf-8" />
   <title>WebAR Dino</title>
 
-  <!-- 모바일 최적화 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="viewport"
+        content="width=device-width, height=device-height,
+                 initial-scale=1.0, user-scalable=no" />
 
-  <!-- A-Frame + WebXR -->
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
       background: black;
     }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
     #startBtn {
       position: fixed;
       bottom: 30px;
@@ -28,67 +37,55 @@
       border: none;
       background: #00c853;
       color: white;
-      z-index: 10;
+      z-index: 999;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- AR 시작 버튼 -->
-  <button id="startBtn">AR 시작</button>
+<button id="startBtn">AR 시작</button>
 
-  <!-- AR Scene -->
-  <a-scene
-    embedded
-    vr-mode-ui="enabled: false"
-    renderer="colorManagement: true; physicallyCorrectLights: true;"
-    xrweb="mode: ar; requiredFeatures: camera-access;"
-  >
+<a-scene
+  vr-mode-ui="enabled: false"
+  renderer="colorManagement: true; physicallyCorrectLights: true"
+  xrweb="mode: ar; requiredFeatures: camera-access"
+>
 
-    <!-- 카메라 -->
-    <a-camera
-      id="camera"
-      position="0 1.6 0"
-      look-controls
-    ></a-camera>
+  <!-- 카메라 -->
+  <a-camera position="0 1.6 0"></a-camera>
 
-    <!-- 공룡 모델 -->
-    <a-entity
-      id="dino"
-      gltf-model="dino.glb"
-      position="0 0 -2"
-      rotation="0 180 0"
-      scale="0.5 0.5 0.5"
-      visible="false"
-    ></a-entity>
+  <!-- 공룡 -->
+  <a-entity
+    id="dino"
+    gltf-model="dino.glb"
+    position="0 -0.5 -2"
+    rotation="0 180 0"
+    scale="0.6 0.6 0.6"
+    visible="false">
+  </a-entity>
 
-    <!-- 조명 -->
-    <a-light type="ambient" intensity="1.2"></a-light>
-    <a-light type="directional" position="1 3 2" intensity="1"></a-light>
+  <!-- 조명 -->
+  <a-light type="ambient" intensity="1.3"></a-light>
+  <a-light type="directional" position="1 3 2" intensity="1"></a-light>
 
-  </a-scene>
+</a-scene>
 
-  <script>
-    const startBtn = document.getElementById("startBtn");
-    const dino = document.getElementById("dino");
-    const scene = document.querySelector("a-scene");
+<script>
+  const btn = document.getElementById("startBtn");
+  const dino = document.getElementById("dino");
+  const scene = document.querySelector("a-scene");
 
-    startBtn.addEventListener("click", async () => {
-      startBtn.style.display = "none";
-
-      if (scene.xrSession) {
-        return;
-      }
-
-      try {
-        await scene.enterVR();
-        dino.setAttribute("visible", true);
-      } catch (e) {
-        alert("AR 실행 실패: Chrome + Android에서 실행하세요");
-      }
-    });
-  </script>
+  btn.onclick = async () => {
+    btn.style.display = "none";
+    try {
+      await scene.enterVR();
+      dino.setAttribute("visible", true);
+    } catch (e) {
+      alert("Android Chrome에서 실행하세요");
+    }
+  };
+</script>
 
 </body>
 </html>
