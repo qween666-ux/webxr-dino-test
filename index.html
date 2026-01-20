@@ -28,15 +28,16 @@
       background: black;
     }
 
+    /* 안내 문구 */
     #guide {
       position: fixed;
-      bottom: 20px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0,0,0,0.6);
-      color: white;
-      padding: 10px 16px;
-      border-radius: 12px;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 14px;
       font-size: 14px;
       z-index: 10;
     }
@@ -49,21 +50,18 @@
   src="dino.glb"
 
   ar
+  ar-only
   ar-modes="scene-viewer quick-look"
 
-  camera-controls
   autoplay
 
   exposure="1"
   shadow-intensity="1"
-
-  camera-orbit="0deg 75deg 2.5m"
-  field-of-view="30deg"
 >
 </model-viewer>
 
 <div id="guide">
-  AR 버튼을 눌러 공룡을 배치하세요
+  AR 버튼을 눌러 공룡을 현실에 배치하세요
 </div>
 
 </body>
