@@ -26,7 +26,6 @@
       background: black;
     }
 
-    /* 우리가 직접 만드는 AR 시작 버튼 */
     #start-ar {
       position: absolute;
       bottom: 40px;
@@ -58,8 +57,7 @@
 
 <body>
 
-<div id="hint">버튼을 누르면 공룡이 카메라 중앙 1m 앞에 나타납니다</div>
-
+<div id="hint">공룡이 항상 당신을 바라봅니다</div>
 <button id="start-ar">🦖 AR 시작</button>
 
 <model-viewer
@@ -82,21 +80,42 @@
 <script>
   const viewer = document.getElementById('viewer');
   const button = document.getElementById('start-ar');
+  const hint = document.getElementById('hint');
 
+  // AR 시작 버튼
   button.addEventListener('click', async () => {
     try {
       await viewer.activateAR();
       button.style.display = 'none';
-      document.getElementById('hint').style.display = 'none';
+      hint.style.display = 'none';
     } catch (e) {
       alert('이 기기 또는 브라우저는 WebXR AR을 지원하지 않습니다.');
     }
   });
 
-  // AR 세션 시작 시 카메라 정면 1m로 고정
+  // 공룡이 항상 카메라를 바라보도록 회전
+  function lookAtCamera() {
+    const camera = viewer.getCamera();
+    const model = viewer.model;
+    if (!camera || !model) return;
+
+    const camPos = camera.position;
+    const modelPos = model.position;
+
+    const dx = camPos.x - modelPos.x;
+    const dz = camPos.z - modelPos.z;
+
+    const angleY = Math.atan2(dx, dz);
+    model.rotation.y = angleY;
+
+    requestAnimationFrame(lookAtCamera);
+  }
+
   viewer.addEventListener('ar-status', (event) => {
     if (event.detail.status === 'session-started') {
+      // 카메라 정면 1m
       viewer.setAttribute('camera-orbit', '0deg 90deg 1m');
+      lookAtCamera();
     }
   });
 </script>
