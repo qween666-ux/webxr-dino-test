@@ -17,7 +17,7 @@
       height: 100%;
       background: black;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: system-ui, sans-serif;
     }
 
     model-viewer {
@@ -41,23 +41,11 @@
       box-shadow: 0 6px 14px rgba(0,0,0,0.35);
       z-index: 10;
     }
-
-    #hint {
-      position: absolute;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: white;
-      font-size: 14px;
-      opacity: 0.8;
-      z-index: 10;
-    }
   </style>
 </head>
 
 <body>
 
-<div id="hint">공룡이 항상 당신을 바라봅니다</div>
 <button id="start-ar">🦖 AR 시작</button>
 
 <model-viewer
@@ -74,48 +62,47 @@
 
   scale="0.5 0.5 0.5"
   autoplay>
-
 </model-viewer>
 
 <script>
   const viewer = document.getElementById('viewer');
   const button = document.getElementById('start-ar');
-  const hint = document.getElementById('hint');
 
-  // AR 시작 버튼
   button.addEventListener('click', async () => {
     try {
       await viewer.activateAR();
       button.style.display = 'none';
-      hint.style.display = 'none';
     } catch (e) {
-      alert('이 기기 또는 브라우저는 WebXR AR을 지원하지 않습니다.');
+      alert('WebXR AR을 지원하지 않는 기기입니다.');
     }
   });
 
-  // 공룡이 항상 카메라를 바라보도록 회전
-  function lookAtCamera() {
-    const camera = viewer.getCamera();
+  function forceLookAtCamera() {
     const model = viewer.model;
-    if (!camera || !model) return;
+    const camera = viewer.getCamera();
+    if (!model || !camera) return;
 
-    const camPos = camera.position;
-    const modelPos = model.position;
+    // 카메라 위치
+    const camPos = camera.position.clone();
 
-    const dx = camPos.x - modelPos.x;
-    const dz = camPos.z - modelPos.z;
+    // 모델이 카메라를 바라보게
+    model.lookAt(camPos);
 
-    const angleY = Math.atan2(dx, dz);
-    model.rotation.y = angleY;
+    /**
+     * ★★★★★ 중요 ★★★★★
+     * GLB 정면 보정값
+     * 대부분 공룡 모델은 180도 뒤집혀 있음
+     */
+    model.rotation.y += Math.PI;
 
-    requestAnimationFrame(lookAtCamera);
+    requestAnimationFrame(forceLookAtCamera);
   }
 
   viewer.addEventListener('ar-status', (event) => {
     if (event.detail.status === 'session-started') {
       // 카메라 정면 1m
       viewer.setAttribute('camera-orbit', '0deg 90deg 1m');
-      lookAtCamera();
+      forceLookAtCamera();
     }
   });
 </script>
