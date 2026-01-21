@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dino WebXR AR</title>
 
-  <!-- model-viewer (WebXR 사용) -->
   <script type="module"
     src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
   </script>
@@ -27,7 +26,24 @@
       background: black;
     }
 
-    #ar-hint {
+    /* 우리가 직접 만드는 AR 시작 버튼 */
+    #start-ar {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 16px 32px;
+      background: #007AFF;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+      z-index: 10;
+    }
+
+    #hint {
       position: absolute;
       top: 16px;
       left: 50%;
@@ -42,9 +58,9 @@
 
 <body>
 
-<div id="ar-hint">
-  카메라 중앙 1m 앞에 공룡이 바로 나타납니다
-</div>
+<div id="hint">버튼을 누르면 공룡이 카메라 중앙 1m 앞에 나타납니다</div>
+
+<button id="start-ar">🦖 AR 시작</button>
 
 <model-viewer
   id="viewer"
@@ -65,14 +81,22 @@
 
 <script>
   const viewer = document.getElementById('viewer');
+  const button = document.getElementById('start-ar');
 
-  // WebXR 세션이 시작되면 공룡을 카메라 정면 1m에 고정
+  button.addEventListener('click', async () => {
+    try {
+      await viewer.activateAR();
+      button.style.display = 'none';
+      document.getElementById('hint').style.display = 'none';
+    } catch (e) {
+      alert('이 기기 또는 브라우저는 WebXR AR을 지원하지 않습니다.');
+    }
+  });
+
+  // AR 세션 시작 시 카메라 정면 1m로 고정
   viewer.addEventListener('ar-status', (event) => {
     if (event.detail.status === 'session-started') {
-      viewer.setAttribute(
-        'camera-orbit',
-        '0deg 90deg 1m'
-      );
+      viewer.setAttribute('camera-orbit', '0deg 90deg 1m');
     }
   });
 </script>
