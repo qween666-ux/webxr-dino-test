@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dino AR</title>
+  <title>Dino WebXR AR</title>
 
+  <!-- model-viewer (WebXR 사용) -->
   <script type="module"
     src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
   </script>
@@ -15,7 +16,7 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      background: transparent;
+      background: black;
       overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -23,47 +24,58 @@
     model-viewer {
       width: 100vw;
       height: 100vh;
-      background-color: transparent;
-      --poster-color: transparent;
+      background: black;
     }
 
-    #ar-button {
+    #ar-hint {
       position: absolute;
-      bottom: 40px;
+      top: 16px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 16px 32px;
-      background: #007AFF;
-      color: #fff;
-      font-size: 18px;
-      font-weight: 600;
-      border: none;
-      border-radius: 999px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+      color: white;
+      font-size: 14px;
+      opacity: 0.8;
+      z-index: 10;
     }
   </style>
 </head>
 
 <body>
 
+<div id="ar-hint">
+  카메라 중앙 1m 앞에 공룡이 바로 나타납니다
+</div>
+
 <model-viewer
+  id="viewer"
   src="dino.glb"
 
   ar
-  ar-modes="webxr scene-viewer quick-look"
+  ar-modes="webxr"
   ar-scale="fixed"
 
-  camera-controls
+  camera-controls="false"
+  disable-zoom
   touch-action="none"
 
   scale="0.5 0.5 0.5"
   autoplay>
 
-  <button slot="ar-button" id="ar-button">
-    🦖 AR 시작
-  </button>
-
 </model-viewer>
+
+<script>
+  const viewer = document.getElementById('viewer');
+
+  // WebXR 세션이 시작되면 공룡을 카메라 정면 1m에 고정
+  viewer.addEventListener('ar-status', (event) => {
+    if (event.detail.status === 'session-started') {
+      viewer.setAttribute(
+        'camera-orbit',
+        '0deg 90deg 1m'
+      );
+    }
+  });
+</script>
 
 </body>
 </html>
