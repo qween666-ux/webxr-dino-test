@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dino AR</title>
 
-    <!-- model-viewer 공식 최신 -->
     <script type="module"
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
     </script>
@@ -28,7 +27,6 @@
             --poster-color: transparent;
         }
 
-        /* AR 버튼 (model-viewer 공식 슬롯 방식) */
         #ar-button {
             position: absolute;
             bottom: 40px;
@@ -42,7 +40,6 @@
             border: none;
             border-radius: 999px;
             box-shadow: 0 6px 14px rgba(0,0,0,0.35);
-            cursor: pointer;
         }
     </style>
 </head>
@@ -55,14 +52,11 @@
     ar-modes="webxr scene-viewer quick-look"
     ar-placement="floor"
     camera-controls
-    shadow-intensity="0"
     touch-action="none"
     scale="0.5 0.5 0.5"
     exposure="1"
-    environment-image="neutral"
     autoplay>
 
-    <!-- AR 진입 버튼 -->
     <button slot="ar-button" id="ar-button">
         🦖 AR로 공룡 소환하기
     </button>
